@@ -44,9 +44,11 @@ To use Verdant Voyages, follow these simple steps:
 ## Support and Feedback
 
 For any questions, feedback, or support, please reach out to our support team at 
-ue203036.aashi.cse@gmail.com
+
+ue203001.aashi.cse@gmail.com
 dikshamahajan1420@gmail.com
 harmandeepk779@gmail.com
+
 We value your input and are committed to improving our platform to better serve our eco-conscious community.
 
 Thank you for choosing Verdant Voyages and being a part of the movement towards a more sustainable future!
