@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-function SignUpForm() {
+function Login() {
     const navigate = useNavigate();
 
   const navigateToSignup = () => {
@@ -32,41 +32,43 @@ function SignUpForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
-  
-    // Simulate a successful registration
-    axios.post('/api/signup', {
-      email: formData.email,
-      password: formData.password,
-      phoneNumber: formData.phoneNumber,
-    })
+
+    axios.post('/api/login', formData)
       .then((response) => {
-        console.log(response.data);
-        if (response.data.success) {
-          window.location = '/login';
+        const data = response.data;
+        console.log(data);
+        if (data.success) {
+          alert('Login successful'); 
+          localStorage.setItem('user', JSON.stringify(data.user))
+          // localStorage.setItem('points', JSON.stringify(data.points));
+          window.location = '/';
         } else {
-          alert('Could not signup');
+          alert(data.message);
         }
       })
       .catch((error) => {
         console.error('Error:', error);
+        alert('An error occurred during login');
       });
   };
 
-//   const handleLogout = () => {
-//     localStorage.removeItem("user");
-//     // localStorage.removeItem("points");
-//     navigate("/");
-//   };
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    // localStorage.removeItem("points");
+    navigate("/");
+  };
 
-//   const userInformation = localStorage.getItem('user');
-//   let userPoints;
-//   if (userInformation) {
-//     const userData = JSON.parse(userInformation);
-//     userPoints = userData.points;
-//     console.log(userPoints);
-//   }
-//   const isLoggedIn = userInformation ? true : false;
+  const userInformation = localStorage.getItem('user');
+  console.log(userInformation);
+  let userPoints;
+  if (userInformation) {
+    const userData = JSON.parse(userInformation);
+    userPoints = userData.points;
+    console.log(userPoints);
+  }
+//   console.log("type of ");
+//   console.log(typeof userPoints);
+  const isLoggedIn = userInformation ? true : false;
 
   return (
     <>
@@ -76,6 +78,18 @@ function SignUpForm() {
             VERDANT VOYAGES
           </Navbar.Brand>
           <Nav className="me-right">
+            {isLoggedIn ? (
+                <>
+              <Nav.Link style={{fontSize: `25px`}}>
+                🏅
+                </Nav.Link>
+              <Nav.Link eventKey="disabled" disabled>
+                {userPoints}
+                </Nav.Link>
+              <Nav.Link onClick={handleLogout}>LOG OUT</Nav.Link>
+                </>
+            ) : (
+              // User is not logged in, so show "Sign Up" and "Log In" links
               <>
                 <Nav.Link href="/signup" onClick={navigateToSignup}>
                   SIGN-UP
@@ -84,6 +98,7 @@ function SignUpForm() {
                   LOG-IN
                 </Nav.Link>
               </>
+            )}
           </Nav>
         </Container>
       </Navbar>
@@ -181,4 +196,4 @@ const buttonStyle = {
   marginTop: '10px',
 };
 
-export default SignUpForm;
+export default Login;
